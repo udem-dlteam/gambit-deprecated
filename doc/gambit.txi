@@ -3170,12 +3170,14 @@ clone the last version of gambit and geiser (cloning the geiser's repo is option
 @item
 configure gambit using @code{--enable-rtlib-debug-source}@*(this part is important to have access to autodoc functionality of geiser)
 @example
-    $ cd [gambit's repository path]  
-    $ ./configure --enable-single-host --enable-rtlib-debug-source
-    $ make bootstrap
-    $ make bootclean
-    $ make -j
-    $ make install
+$ cd [gambit's repository path]  
+$ ./configure --enable-single-host \
+              --enable-debug \
+              --enable-rtlib-debug-source
+$ make bootstrap
+$ make bootclean
+$ make -j
+$ make install
 @end example
 @item
 you can now simply intall the geiser package inside Emacs using the Emacs command:
