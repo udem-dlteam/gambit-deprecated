@@ -325,11 +325,11 @@ The input and output of the interaction is done on the
 @dfn{interaction channel}.  The interaction channel can be specified
 through the runtime options but if none is specified the system uses a
 reasonable default that depends on the system's configuration.  When
-the system's runtime library was built with support for GUIDE, the
+the system's runtime library was built with support for Geiser Emacs-mode, the
 Gambit Universal IDE (with the command @samp{configure
 --enable-guide}) the interaction channel corresponds to the
 @dfn{console window} of the primordial thread (for details see
-@ref{GUIDE}), otherwise the interaction channel is the user's
+@ref{Geiser Emacs-mode}), otherwise the interaction channel is the user's
 @dfn{console}, also known as the @dfn{controlling terminal} in the
 UNIX world.  When the REPL starts, the ports associated with
 @samp{(current-input-port)}, @samp{(current-output-port)} and
@@ -2089,7 +2089,7 @@ $ @b{gsi -:d1 -e '(pretty-print (path-expand "~~")) (/ 1 0)'}
 * Procedures related to debugging:: Procedures related to debugging
 * Console line-editing::            Console line-editing
 * Emacs interface::                 Emacs interface
-* GUIDE::                           GUIDE
+* Geiser Emacs-mode::                           Geiser Emacs-mode
 @end menu
 
 @node Debugging model, Debugging commands, Debugging, Debugging
@@ -3056,7 +3056,7 @@ allows text to be copied and pasted between the program and other
 applications.  On other operating systems the clipboard is internal to
 the program (it is not integrated with the operating system).
 
-@node Emacs interface, GUIDE, Console line-editing, Debugging
+@node Emacs interface, Geiser Emacs-mode, Console line-editing, Debugging
 @section Emacs interface
 @cindex Emacs
 @cindex gambit.el
@@ -3152,11 +3152,77 @@ Here is what a typical @samp{.emacs} file will look like:
 (require 'gambit)
 @end smallexample
 
-@node GUIDE, , Emacs interface, Debugging
-@section GUIDE
-
-The implementation and documentation for GUIDE, the Gambit Universal
-IDE, are not yet complete.
+@node Geiser Emacs-mode, , Emacs interface, Debugging
+@section Geiser Emacs-mode
+You can also use the Emacs-mode Geiser to provide a nice coding environment to Gambit.
+If you don't already know about Geiser, here is the official repository:
+@uref{https://gitlab.com/jaor/geiser}
+You will soon get addicted to code with Gambit Scheme in this Emacs mode!
+You can find
+all the informations about how to use Geiser on the Geiser's repository.
+But basically @code{M-x run-gambit} starts a gambit REPL,@* and
+@code{M-x geiser-set-scheme RET gambit RET} sets gambit as the geiser's scheme
+being used in the current buffer.@*
+SETUP :
+@enumerate
+@item
+clone the last version of gambit and geiser (cloning the geiser's repo is optional)@*
+@item
+configure gambit using @code{--enable-rtlib-debug-source}@*(this part is important to have access to autodoc functionality of geiser)
+@example
+    $ cd [gambit's repository path]  
+    $ ./configure --enable-single-host --enable-rtlib-debug-source
+    $ make bootstrap
+    $ make bootclean
+    $ make -j
+    $ make install
+@end example
+@item
+you can now simply intall the geiser package inside Emacs using the Emacs command:
+@example
+M-x package-install RET geiser RET
+@end example
+Or,@* if you cloned the Geiser's repo,
+put a link to @file{[PATH TO GEISER]/geiser/elisp/geiser.el} in your Emacs init file@*
+(you should know the path of your Emacs init file ... It's important)@*
+Here is the way you can put it in your init file
+@example
+    (load-file "~/geiser/elisp/geiser.el")
+@end example
+(the path is your path to geiser.el...)@*
+@item
+You should now be able to open a Gambit REPL inside Emacs using @code{M-x run-gambit}
+@end enumerate
+@*
+REMOTE CONNECT TO A GAMBIT REPL
+@enumerate
+@item
+(if your version of Gambit is less than 4.9.4,@*
+use the command given
+in the "By the way" section)@*
+@item
+start gsi with geiser module and using the -:d@@
+@example
+    $ gsi -:d@@ gambit/geiser -
+@end example
+@item
+you can now open emacs and write
+@example
+    M-x geiser-connect gambit
+@end example
+@item
+Enjoy !
+@end enumerate
+By the way,@*
+if you are unable to use gambit modules, open gsi with
+the @file{gambit.scm} file located in
+@file{geiser/scheme/gambit/geiser/gambit.scm}
+something like :
+@example
+        @code{gsi -:d@@ ~/geiser/scheme/gambit/geiser/gambit.scm -}
+@end example
+@*
+(Keep in mind that these paths may be a little different for you.)
 
 @node Scheme extensions, Modules, Debugging, Top
 @chapter Scheme extensions
