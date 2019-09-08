@@ -231,7 +231,7 @@
 (##define-macro (macro-debug-settings-error-quit)          2)
 (##define-macro (macro-debug-settings-error-shift)         5)
 
-(##define-macro (macro-debug-settings-repl-mask)           384)
+(##define-macro (macro-debug-settings-repl-mask)           896)
 (##define-macro (macro-debug-settings-repl-ide)            0)
 (##define-macro (macro-debug-settings-repl-console)        1)
 (##define-macro (macro-debug-settings-repl-stdio)          2)
